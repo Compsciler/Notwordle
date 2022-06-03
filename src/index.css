@@ -144,6 +144,57 @@ svg.cursor-pointer:hover {
   }
 }
 
+.cell-reveal.high {
+  animation-name: revealHighCell;
+}
+
+.cell-reveal.low {
+  animation-name: revealLowCell;
+}
+
+.cell-reveal.equal {
+  animation-name: revealEqualCell;
+}
+
+@keyframes revealHighCell {
+  0% {
+    transform: rotateX(0deg);
+    background-color: var(--default-cell-bg-color);
+    border-color: var(--default-cell-border-color);
+  }
+  100% {
+    transform: rotateX(180deg);
+    background-color: theme('colors.red.400');
+    border-color: theme('colors.red.500');
+  }
+}
+
+@keyframes revealLowCell {
+  0% {
+    transform: rotateX(0deg);
+    background-color: var(--default-cell-bg-color);
+    border-color: var(--default-cell-border-color);
+  }
+  100% {
+    transform: rotateX(180deg);
+    background-color: theme('colors.blue.400');
+    border-color: theme('colors.blue.500');
+  }
+}
+
+@keyframes revealEqualCell {
+  0% {
+    transform: rotateX(0deg);
+    background-color: var(--default-cell-bg-color);
+    border-color: var(--default-cell-border-color);
+  }
+  100% {
+    transform: rotateX(180deg);
+    background-color: theme('colors.lime.400');
+    border-color: theme('colors.lime.500');
+  }
+}
+
 /* Additional animation on the child div to avoid letters turning upside down/snapping back to upright visual glitch */
 @keyframes offsetLetterFlip {
   0% {

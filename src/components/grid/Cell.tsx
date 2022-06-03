@@ -1,15 +1,28 @@
-import { CharStatus } from '../../lib/statuses'
+import { CharStatus, HighLowStatus } from '../../lib/statuses'
 import classnames from 'classnames'
 import { REVEAL_TIME_MS } from '../../constants/settings'
 import { getStoredIsHighContrastMode } from '../../lib/localStorage'
+import { BaseRankDisplay } from '../rankdisplay/BaseRankDisplay'
+import { ScrabbleRankDisplay } from '../rankdisplay/ScrabbleRankDisplay'
+import { AlphaRankDisplay } from '../rankdisplay/AlphaRankDisplay'
 
 type Props = {
   value?: string
-  status?: CharStatus
+  status?: CharStatus | HighLowStatus
   isRevealing?: boolean
   isCompleted?: boolean
   position?: number
+  target?: 'char' | 'rank'
+  rankType?: 'scrabble' | 'alpha'
 }
+
+/*
+scrabble score
+scrabble higher or lower
+alpha higher lower
+frequency higher lower
+word ladder distance
+*/
 
 export const Cell = ({
   value,
@@ -17,6 +30,8 @@ export const Cell = ({
   isRevealing,
   isCompleted,
   position = 0,
+  target = 'char',
+  rankType,
 }: Props) => {
   const isFilled = value && !isCompleted
   const shouldReveal = isRevealing && isCompleted
@@ -39,15 +54,30 @@ export const Cell = ({
         status === 'correct' && !isHighContrast,
       'present shadowed bg-yellow-500 text-white border-yellow-500':
         status === 'present' && !isHighContrast,
+      'high bg-red-400 text-white border-red-500 dark:bg-red-400 dark:border-red-500':
+        target === 'rank' && status === 'high',
+      'low bg-blue-400 text-white border-blue-500 dark:bg-blue-400 dark:border-blue-500':
+        target === 'rank' && status === 'low',
+      'equal bg-lime-400 text-white text-white border-lime-500 dark:bg-lime-400 dark:border-lime-500':
+        target === 'rank' && status === 'equal',
+      'waiting border-black dark:bg-slate-900 dark:border-neutral-300':
+        target === 'rank' && status === 'waiting',
       'cell-fill-animation': isFilled,
       'cell-reveal': shouldReveal,
     }
   )
 
+  const RankDisplay = (rankType === 'scrabble') ? ScrabbleRankDisplay : AlphaRankDisplay
   return (
     <div className={classes} style={{ animationDelay }}>
       <div className="letter-container" style={{ animationDelay }}>
-        {value}
+        {target === 'char' ? (
+          value
+        ) : (
+          <RankDisplay
+            rank={isRevealing ? 'waiting' : (status as HighLowStatus)}
+          />
+        )}
       </div>
     </div>
   )

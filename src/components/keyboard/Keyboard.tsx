@@ -3,7 +3,6 @@ import { Key } from './Key'
 import { useEffect } from 'react'
 import { ENTER_TEXT, DELETE_TEXT } from '../../constants/strings'
 import { localeAwareUpperCase } from '../../lib/words'
-// import { VALID_CHARS } from '../../constants/validChars'
 
 type Props = {
   onChar: (value: string) => void
@@ -46,11 +45,6 @@ export const Keyboard = ({
         if (key.length === 1 && key >= 'A' && key <= 'Z') {
           onChar(key)
         }
-        /*
-        if (isValidKey(key)) {
-          onChar(key)
-        }
-        */
       }
     }
     window.addEventListener('keyup', listener)
@@ -106,12 +100,3 @@ export const Keyboard = ({
     </div>
   )
 }
-
-/*
-export const isValidKey = (key: string) => {
-  if (key.length !== 1) {
-    return false
-  }
-  return VALID_CHARS.includes(key)
-}
-*/

@@ -1,5 +1,6 @@
 import { Cell } from './Cell'
 import { unicodeSplit } from '../../lib/words'
+import { ScrabbleScoreCell } from '../rankdisplay/ScrabbleScoreCell'
 
 type Props = {
   guess: string
@@ -20,6 +21,19 @@ export const CurrentRow = ({ guess, solution, className }: Props) => {
       {emptyCells.map((_, i) => (
         <Cell key={i} />
       ))}
+      <div className="ml-2" />
+      <ScrabbleScoreCell
+        solution={solution}
+        guess={guess}
+      />
+      <Cell
+        target="rank"
+        status={emptyCells.length === 0 ? 'waiting' : undefined}
+      />
+      <Cell
+        target="rank"
+        status={emptyCells.length === 0 ? 'waiting' : undefined}
+      />
     </div>
   )
 }

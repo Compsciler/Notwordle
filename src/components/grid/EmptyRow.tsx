@@ -1,3 +1,4 @@
+import { ScrabbleScoreCell } from '../rankdisplay/ScrabbleScoreCell'
 import { Cell } from './Cell'
 
 type Props = {
@@ -12,6 +13,10 @@ export const EmptyRow = ({ solution }: Props) => {
       {emptyCells.map((_, i) => (
         <Cell key={i} />
       ))}
+      <div className="ml-2" />
+      <ScrabbleScoreCell solution={solution} />
+      <Cell target="rank" />
+      <Cell target="rank" />
     </div>
   )
 }

@@ -283,7 +283,7 @@ function App() {
     // chars have been revealed
     setTimeout(() => {
       setIsRevealing(false)
-    }, REVEAL_TIME_MS * solution.length)
+    }, REVEAL_TIME_MS * solution.length) // TODO: Change timeout
 
     const winningWord = isPlayingExample
       ? isWinningWord(currentGuess, solution)
