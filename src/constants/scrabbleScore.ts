@@ -1,4 +1,4 @@
-export const scrabbleScore: { [char: string]: number } = {
+export const SCRABBLE_SCORE: { [char: string]: number } = {
   'a': 1,
   'b': 3,
   'c': 3,

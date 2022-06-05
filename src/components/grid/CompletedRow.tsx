@@ -1,7 +1,9 @@
-import { getAlphabeticalStatus, getGuessStatuses, getScrabbleStatus } from '../../lib/statuses'
+import { getAlphabeticalStatus, getFrequencyStatus, getGuessStatuses, getScrabbleStatus } from '../../lib/statuses'
 import { Cell } from './Cell'
 import { unicodeSplit } from '../../lib/words'
 import { ScrabbleScoreCell } from '../rankdisplay/ScrabbleScoreCell'
+import { LadderDistanceCell } from '../rankdisplay/LadderDistanceCell'
+import { PartialWordleStatusCell } from '../rankdisplay/PartialWordleStatusCell'
 
 type Props = {
   solution: string
@@ -15,6 +17,7 @@ export const CompletedRow = ({ solution, guess, isRevealing }: Props) => {
 
   const scrabbleStatus = getScrabbleStatus(guess, solution)
   const alphaStatus = getAlphabeticalStatus(guess, solution)
+  const freqStatus = getFrequencyStatus(guess, solution)
 
   return (
     <div className="flex justify-center mb-1">
@@ -50,6 +53,28 @@ export const CompletedRow = ({ solution, guess, isRevealing }: Props) => {
         isCompleted
         target="rank"
         rankType="alpha"
+      />
+      <Cell
+        status={freqStatus}
+        position={solution.length + 3}
+        isRevealing={isRevealing}
+        isCompleted
+        target="rank"
+        rankType="freq"
+      />
+      <LadderDistanceCell
+        solution={solution}
+        guess={guess}
+        isRevealing={isRevealing}
+        isCompleted
+        isWaiting
+      />
+      <PartialWordleStatusCell
+        solution={solution}
+        guess={guess}
+        isRevealing={isRevealing}
+        isCompleted
+        isWaiting
       />
     </div>
   )

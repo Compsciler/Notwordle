@@ -7,7 +7,7 @@ type Props = {
   equalText: string
 }
 
-export const BaseRankDisplay = ({ rank, higherText, lowerText, equalText }: Props) => {
+export const BaseRankDisplay = ({ rank, higherText, lowerText, equalText }: Props) => { 
   const display = (() => {
     switch (rank) {
       case 'high': {
@@ -27,7 +27,8 @@ export const BaseRankDisplay = ({ rank, higherText, lowerText, equalText }: Prop
       }
     }
   })()
-  if (display === 'WAITING') {
+
+  if (display === 'WAITING') {    
     return (
       <div>
         ?
@@ -36,8 +37,8 @@ export const BaseRankDisplay = ({ rank, higherText, lowerText, equalText }: Prop
   }
   return (
     <div
-      className="text-black text-center text-sm"
-      style={{ lineHeight: '1.1em' }}
+      className="text-black text-center text-xs"
+      style={{ lineHeight: '1.1em', fontSize: '0.71rem' }}
     >
       {display}
     </div>

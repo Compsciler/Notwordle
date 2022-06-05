@@ -2,9 +2,9 @@ import { CharStatus, HighLowStatus } from '../../lib/statuses'
 import classnames from 'classnames'
 import { REVEAL_TIME_MS } from '../../constants/settings'
 import { getStoredIsHighContrastMode } from '../../lib/localStorage'
-import { BaseRankDisplay } from '../rankdisplay/BaseRankDisplay'
 import { ScrabbleRankDisplay } from '../rankdisplay/ScrabbleRankDisplay'
 import { AlphaRankDisplay } from '../rankdisplay/AlphaRankDisplay'
+import { FreqRankDisplay } from '../rankdisplay/FreqRankDisplay'
 
 type Props = {
   value?: string
@@ -13,7 +13,7 @@ type Props = {
   isCompleted?: boolean
   position?: number
   target?: 'char' | 'rank'
-  rankType?: 'scrabble' | 'alpha'
+  rankType?: 'scrabble' | 'alpha' | 'freq'
 }
 
 /*
@@ -67,11 +67,17 @@ export const Cell = ({
     }
   )
 
-  const RankDisplay = (rankType === 'scrabble') ? ScrabbleRankDisplay : AlphaRankDisplay
+  const rankDisplay = {
+    'scrabble': ScrabbleRankDisplay,
+    'alpha': AlphaRankDisplay,
+    'freq': FreqRankDisplay,
+  }
+  
+  const RankDisplay = rankType ? rankDisplay[rankType] : undefined
   return (
     <div className={classes} style={{ animationDelay }}>
       <div className="letter-container" style={{ animationDelay }}>
-        {target === 'char' ? (
+        {target === 'char' || !RankDisplay ? (
           value
         ) : (
           <RankDisplay

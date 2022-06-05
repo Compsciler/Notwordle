@@ -1,0 +1,56 @@
+{
+  "can": {
+    "can": 0,
+    "ban": 1,
+    "cap": 1,
+    "bad": 2,
+    "cop": 2,
+    "dad": 3
+  },
+  "ban": {
+    "ban": 0,
+    "can": 1,
+    "bad": 1,
+    "cap": 2,
+    "dad": 2,
+    "cop": 3
+  },
+  "cap": {
+    "cap": 0,
+    "can": 1,
+    "cop": 1,
+    "ban": 2,
+    "bad": 3,
+    "dad": 4
+  },
+  "cop": {
+    "cop": 0,
+    "cap": 1,
+    "can": 2,
+    "ban": 3,
+    "bad": 4,
+    "dad": 5
+  },
+  "dog": {
+    "dog": 0
+  },
+  "xyz": {
+    "xyz": 0
+  },
+  "bad": {
+    "bad": 0,
+    "ban": 1,
+    "dad": 1,
+    "can": 2,
+    "cap": 3,
+    "cop": 4
+  },
+  "dad": {
+    "dad": 0,
+    "bad": 1,
+    "ban": 2,
+    "can": 3,
+    "cap": 4,
+    "cop": 5
+  }
+}

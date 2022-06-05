@@ -1,5 +1,4 @@
-import { scrabbleScore } from '../../constants/scrabbleScore'
-import { unicodeSplit } from '../../lib/words'
+import { getScrabbleScore } from '../../lib/statuses'
 import { Cell } from '../grid/Cell'
 
 type Props = {
@@ -22,11 +21,7 @@ export const ScrabbleScoreCell = ({ solution, guess, isRevealing, isCompleted }:
     )
   }
   
-  const splitGuess = unicodeSplit(guess)
-  const score = splitGuess.reduce(
-    (prevScore, c) => prevScore + scrabbleScore[c.toLowerCase()],
-    0
-  )
+  const score = getScrabbleScore(guess)
   
   return (
     <Cell

@@ -1,3 +1,5 @@
+import { LadderDistanceCell } from '../rankdisplay/LadderDistanceCell'
+import { PartialWordleStatusCell } from '../rankdisplay/PartialWordleStatusCell'
 import { ScrabbleScoreCell } from '../rankdisplay/ScrabbleScoreCell'
 import { Cell } from './Cell'
 
@@ -17,6 +19,9 @@ export const EmptyRow = ({ solution }: Props) => {
       <ScrabbleScoreCell solution={solution} />
       <Cell target="rank" />
       <Cell target="rank" />
+      <Cell target="rank" />
+      <LadderDistanceCell solution={solution} />
+      <PartialWordleStatusCell solution={solution} />
     </div>
   )
 }
