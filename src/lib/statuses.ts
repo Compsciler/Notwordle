@@ -53,10 +53,7 @@ export const getAlphabeticalStatus = (guess: string, solution: string) => {
 
 export const getFrequencyStatus = (guess: string, solution: string) => {
   const guessFreq = WORD_FREQ[guess.toLowerCase()]
-  const solutionFreq = WORD_FREQ[solution.toLowerCase()]
-  
-  console.log(`${guessFreq} | ${solutionFreq}`);
-  
+  const solutionFreq = WORD_FREQ[solution.toLowerCase()]  
 
   if (guessFreq < solutionFreq) {
     return 'low'

@@ -1,4 +1,4 @@
-import { getGuessStatuses } from './statuses'
+import { CharStatus, getAlphabeticalStatus, getFrequencyStatus, getGuessStatuses, getPartialWordleStatus, getScrabbleStatus, getWordLadderDistance, HighLowStatus } from './statuses'
 import { unicodeSplit } from './words'
 import { GAME_TITLE } from '../constants/strings'
 import { MAX_CHALLENGES } from '../constants/settings'
@@ -58,20 +58,32 @@ export const generateEmojiGrid = (
       const status = getGuessStatuses(solution, guess)
       const splitGuess = unicodeSplit(guess)
 
-      return splitGuess
+      const charTiles = splitGuess
         .map((_, i) => {
-          switch (status[i]) {
-            case 'correct':
-              return tiles[0]
-            case 'present':
-              return tiles[1]
-            default:
-              return tiles[2]
-          }
+          return getStatusEmoji(status[i], tiles)
         })
         .join('')
+      
+      const scrabbleTile = toHighLowEmoji(getScrabbleStatus(guess, solution))
+      const alphaTile = toHighLowEmoji(getAlphabeticalStatus(guess, solution))
+      const freqTile = toHighLowEmoji(getFrequencyStatus(guess, solution))
+      const ladderTile = getLadderDistanceTile(guess, solution)
+      const partialWordleTile = getStatusEmoji(getPartialWordleStatus(guess, solution).status, tiles)
+    
+      return charTiles + ' ' + scrabbleTile + alphaTile + freqTile + ladderTile + partialWordleTile
     })
     .join('\n')
+}
+
+const getStatusEmoji = (status: (CharStatus | undefined), tiles: string[]) => {
+  switch (status) {
+    case 'correct':
+      return tiles[0]
+    case 'present':
+      return tiles[1]
+    default:
+      return tiles[2]
+  }
 }
 
 const attemptShare = (shareData: object) => {
@@ -91,4 +103,24 @@ export const getEmojiTiles = (isDarkMode: boolean, isHighContrastMode: boolean) 
   tiles.push(isHighContrastMode ? '🟦' : '🟨')
   tiles.push(isDarkMode ? '⬛' : '⬜')
   return tiles
+}
+
+const toHighLowEmoji = (highLow: HighLowStatus) => {
+  switch (highLow) {
+    case 'high':
+      return '⬇️'
+    case 'low':
+      return '⬆️'
+    case 'equal':
+      return '🎯'
+  }
+}
+
+const getLadderDistanceTile = (guess: string, solution: string) => {
+  const tiles: {[distance: number]: string} = {0: '0️⃣', 1: '1️⃣', 2: '2️⃣', 3: '3️⃣', 4: '4️⃣', 
+                 5: '5️⃣', 6: '6️⃣', 7: '7️⃣', 8: '8️⃣', 9: '9️⃣', 10: '🔟',
+  }
+  const defaultTile = '🔟'
+  const distance = getWordLadderDistance(guess, solution)
+  return tiles[distance] ? tiles[distance] : defaultTile
 }

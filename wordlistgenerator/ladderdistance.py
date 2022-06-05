@@ -7,10 +7,8 @@ from jsonfilelist import json_file_to_list
 def all_pairs_ladder_lengths(word_list: List[str]) -> dict:
     res = {begin_word: [] for begin_word in word_list}
     adj_list = build_graph(word_list)
-    i = 0
     for begin_word in word_list:
         res[begin_word] = single_source_ladder_lengths(begin_word, word_list, adj_list)
-        i += 1
     return res
 
 def single_source_ladder_lengths(begin_word: str, word_list: List[str], adj_list: defaultdict[str, List[str]]) -> dict:
@@ -67,6 +65,3 @@ all_pairs_ladder_lengths_fie = 'constants/ladderdistances.json'
 
 valid_guesses = json_file_to_list(valid_guesses_json_file)
 list_to_json_file(all_pairs_ladder_lengths(valid_guesses), 'test.json')
-
-# word_list = ['can', 'ban', 'cap', 'cop', 'dog', 'xyz', 'bad', 'dad']
-# list_to_json_file(all_pairs_ladder_lengths(word_list), 'test2.json')
