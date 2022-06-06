@@ -24,9 +24,10 @@ import {
   isWinningWord,
   isWinningWordOfDay,
   solution as solutionOfDay,
-  findFirstUnusedReveal,
   unicodeLength,
   solutionIndex as solutionIndexOfDay,
+  isGuessOutsideScrabbleRange,
+  isGuessOutsideAlphaRange,
 } from './lib/words'
 import { addStatsForCompletedGame, loadStats } from './lib/stats'
 import {
@@ -51,6 +52,17 @@ import { generateEmojiGrid, getEmojiTiles } from './lib/share'
 import { useMatch } from 'react-router-dom'
 import { getWordBySolutionIndex } from './lib/words'
 import { exampleIds } from './constants/exampleIds'
+import {
+  HighLowStatus,
+  CharStatus,
+  getScrabbleScore,
+  getScrabbleStatus,
+  getAlphabeticalStatus,
+  getFrequencyStatus,
+  getWordLadderDistance,
+  getPartialWordleStatus,
+  GuessStatuses,
+} from './lib/statuses'
 
 function App() {
   const isPlayingDaily = useMatch('/') !== null
@@ -265,14 +277,26 @@ function App() {
 
     // enforce hard mode - all guesses must contain all previously revealed letters
     if (isHardMode) {
-      const firstMissingReveal = findFirstUnusedReveal(
+      const isCurrentGuessOutsideScrabbleRange = isGuessOutsideScrabbleRange(
         currentGuess,
         guesses,
         solution
       )
-      if (firstMissingReveal) {
+      if (isCurrentGuessOutsideScrabbleRange) {
         setCurrentRowClass('jiggle')
-        return showErrorAlert(firstMissingReveal, {
+        return showErrorAlert(isCurrentGuessOutsideScrabbleRange, {
+          onClose: clearCurrentRowClass,
+        })
+      }
+
+      const isCurrentGuessOutsideAlphaRange = isGuessOutsideAlphaRange(
+        currentGuess,
+        guesses,
+        solution
+      )
+      if (isCurrentGuessOutsideAlphaRange) {
+        setCurrentRowClass('jiggle')
+        return showErrorAlert(isCurrentGuessOutsideAlphaRange, {
           onClose: clearCurrentRowClass,
         })
       }
@@ -345,6 +369,18 @@ function App() {
   ) => {
     // event.preventDefault()
     const emojiGrid = generateDefaultEmojiGrid(solution, guesses)
+
+    const guessStatuses: GuessStatuses[] = guesses.map((guess) => {
+      return {
+        scrabbleScore: getScrabbleScore(guess),
+        scrabbleStatus: getScrabbleStatus(guess, solution),
+        alphaStatus: getAlphabeticalStatus(guess, solution),
+        freqStatus: getFrequencyStatus(guess, solution),
+        ladderDistance: getWordLadderDistance(guess, solution),
+        partialWordleStatus: getPartialWordleStatus(guess, solution),
+      }
+    })
+
     const scoreObject = {
       solutionIndex,
       solution,
@@ -352,6 +388,7 @@ function App() {
       lost,
       isHardMode,
       emojiGrid,
+      guessStatuses,
     }
 
     scoreService.create(scoreObject).then((res) => {

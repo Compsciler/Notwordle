@@ -1,7 +1,7 @@
 import { WORDS } from '../constants/wordlist'
 import { VALID_GUESSES } from '../constants/validGuesses'
-import { WRONG_SPOT_MESSAGE, NOT_CONTAINED_MESSAGE } from '../constants/strings'
-import { getGuessStatuses } from './statuses'
+import { NOT_EQUAL_SCRABBLE_MESSAGE, TOO_HIGH_ALPHA_MESSAGE, TOO_HIGH_SCRABBLE_MESSAGE, TOO_LOW_ALPHA_MESSAGE, TOO_LOW_SCRABBLE_MESSAGE } from '../constants/strings'
+import { getScrabbleScore } from './statuses'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 
 export const isWordInWordList = (word: string) => {
@@ -18,41 +18,61 @@ export const isWinningWordOfDay = (word: string) => {
   return isWinningWord(word, solution)
 }
 
-// build a set of previously revealed letters - present and correct
-// guess must use correct letters in that space and any other revealed letters
-// also check if all revealed instances of a letter are used (i.e. two C's)
-export const findFirstUnusedReveal = (word: string, guesses: string[], solution: string) => {
-  if (guesses.length === 0) {
+export const isGuessOutsideScrabbleRange = (guess: string, guesses: string[], solution: string) => {
+  const guessScore = getScrabbleScore(guess)
+  const guessesScores = guesses.map(getScrabbleScore)
+  const solutionScore = getScrabbleScore(solution)
+
+  let rangeMin = Number.NEGATIVE_INFINITY
+  let rangeMax = Number.POSITIVE_INFINITY
+
+  guessesScores.forEach(guess_ => {
+    if (guess_ < solutionScore) {
+      rangeMin = Math.max(guess_, rangeMin)
+    } else if (guess_ > solutionScore) {
+      rangeMax = Math.min(guess_, rangeMax)
+    } else {
+      rangeMin = solutionScore
+      rangeMax = solutionScore
+    }
+  })
+
+  if (rangeMin === solutionScore && rangeMax === solutionScore) {
+    if (guessScore !== solutionScore) {
+      return NOT_EQUAL_SCRABBLE_MESSAGE(solutionScore)
+    }
     return false
   }
-
-  const lettersLeftArray = new Array<string>()
-  const guess = guesses[guesses.length - 1]
-  const statuses = getGuessStatuses(solution, guess)
-  const splitWord = unicodeSplit(word)
-  const splitGuess = unicodeSplit(guess)
-
-  for (let i = 0; i < splitGuess.length; i++) {
-    if (statuses[i] === 'correct' || statuses[i] === 'present') {
-      lettersLeftArray.push(splitGuess[i])
-    }
-    if (statuses[i] === 'correct' && splitWord[i] !== splitGuess[i]) {
-      return WRONG_SPOT_MESSAGE(splitGuess[i], i + 1)
-    }
+  if (guessScore <= rangeMin) {
+    return TOO_LOW_SCRABBLE_MESSAGE(rangeMin)
   }
-
-  // check for the first unused letter, taking duplicate letters
-  // into account - see issue #198
-  let n
-  for (const letter of splitWord) {
-    n = lettersLeftArray.indexOf(letter)
-    if (n !== -1) {
-      lettersLeftArray.splice(n, 1)
-    }
+  if (guessScore >= rangeMax) {
+    return TOO_HIGH_SCRABBLE_MESSAGE(rangeMax)
   }
+  return false
+}
 
-  if (lettersLeftArray.length > 0) {
-    return NOT_CONTAINED_MESSAGE(lettersLeftArray[0])
+export const isGuessOutsideAlphaRange = (guess: string, guesses: string[], solution: string) => {
+  let rangeMin = ''
+  let rangeMax = '~'
+
+  guesses.forEach(guess_ => {
+    if (guess_ < solution) {
+      if (guess_ > rangeMin) {
+        rangeMin = guess_
+      }
+    } else if (guess_ > solution) {
+      if (guess_ < rangeMax) {
+        rangeMax = guess_
+      }
+    }
+  })
+
+  if (guess <= rangeMin) {
+    return TOO_LOW_ALPHA_MESSAGE(rangeMin)
+  }
+  if (guess >= rangeMax) {
+    return TOO_HIGH_ALPHA_MESSAGE(rangeMax)
   }
   return false
 }

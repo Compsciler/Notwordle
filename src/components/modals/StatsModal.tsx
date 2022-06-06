@@ -50,6 +50,7 @@ export const StatsModal = ({
       title={STATISTICS_TITLE}
       isOpen={isOpen}
       handleClose={handleClose}
+      isWide={false}
     >
       <StatBar gameStats={gameStats} />
       <h4 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">

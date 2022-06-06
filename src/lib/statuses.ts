@@ -7,6 +7,15 @@ import { ladderLength } from './wordladder'
 export type CharStatus = 'absent' | 'present' | 'correct'
 export type HighLowStatus = 'high' | 'low' | 'equal' | 'waiting'
 
+export type GuessStatuses = {
+  scrabbleScore: number
+  scrabbleStatus: HighLowStatus
+  alphaStatus: HighLowStatus
+  freqStatus: HighLowStatus
+  ladderDistance: number
+  partialWordleStatus: { status: CharStatus, value: number }
+}
+
 export const getStatuses = (
   solution: string,
   guesses: string[]

@@ -16,7 +16,6 @@ export const LadderDistanceCell = ({ solution, guess, isRevealing, isCompleted, 
     return (
       <Cell
         value={value}
-        position={solution.length}
         isRevealing={isRevealing}
         isCompleted={isCompleted}
         target="char"

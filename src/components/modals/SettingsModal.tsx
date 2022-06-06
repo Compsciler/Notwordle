@@ -27,7 +27,7 @@ export const SettingsModal = ({
   handleHighContrastMode,
 }: Props) => {
   return (
-    <BaseModal title="Settings" isOpen={isOpen} handleClose={handleClose}>
+    <BaseModal title="Settings" isOpen={isOpen} handleClose={handleClose} isWide={false}>
       <div className="flex flex-col mt-2 divide-y">
         <SettingsToggle
           settingName="Hard Mode"

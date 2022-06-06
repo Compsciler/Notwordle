@@ -16,7 +16,6 @@ export const PartialWordleStatusCell = ({ solution, guess, isRevealing, isComple
     return (
       <Cell
         value={value}
-        position={solution.length}
         isRevealing={isRevealing}
         isCompleted={isCompleted}
         target="char"

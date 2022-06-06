@@ -2,17 +2,16 @@ import random
 from collections import Counter
 from jsonfilelist import json_file_to_list, list_to_json_file
 
-random.seed(0)
+random.seed(1)
 
-old_word_list_json_file = 'constants/oldwordlist.json'
+old_word_list_json_file = 'constants/nytwordlist.json'
 new_word_list_file = 'constants/wordlist.json'
 
 old_valid_guesses_json_file = 'constants/oldvalidGuesses.json'
 new_valid_guesses_file = 'constants/validGuesses.json'
 
 def get_word_list(old_word_list):
-    new_word_list = []
-    # TODO
+    new_word_list = old_word_list.copy()
     return new_word_list
 
 old_word_list = json_file_to_list(old_word_list_json_file)

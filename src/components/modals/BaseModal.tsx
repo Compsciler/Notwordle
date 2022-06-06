@@ -7,9 +7,13 @@ type Props = {
   children: React.ReactNode
   isOpen: boolean
   handleClose: () => void
+  isWide: boolean
 }
 
-export const BaseModal = ({ title, children, isOpen, handleClose }: Props) => {
+export const BaseModal = ({ title, children, isOpen, handleClose, isWide }: Props) => {
+  const normalWidthModalClassName = "inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6 dark:bg-gray-800"
+  const wideModalClassName = "inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle md:max-w-5xl sm:max-w-lg sm:w-full sm:p-6 dark:bg-gray-800"
+  const modalClassName = isWide ? wideModalClassName : normalWidthModalClassName
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
@@ -46,7 +50,7 @@ export const BaseModal = ({ title, children, isOpen, handleClose }: Props) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6 dark:bg-gray-800">
+            <div className={modalClassName}>
               <div className="absolute right-4 top-4">
                 <XCircleIcon
                   className="h-6 w-6 cursor-pointer dark:stroke-white"

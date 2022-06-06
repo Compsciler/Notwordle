@@ -15,6 +15,16 @@ export const WRONG_SPOT_MESSAGE = (guess: string, position: number) =>
   `Must use ${guess} in position ${position}`
 export const NOT_CONTAINED_MESSAGE = (letter: string) =>
   `Guess must contain ${letter}`
+export const NOT_EQUAL_SCRABBLE_MESSAGE = (solutionScore: number) =>
+  `Guess must have a Scrabble score of ${solutionScore}`
+export const TOO_LOW_SCRABBLE_MESSAGE = (rangeMin: number) =>
+  `Guess must have a higher Scrabble score than ${rangeMin}`
+export const TOO_HIGH_SCRABBLE_MESSAGE = (rangeMax: number) =>
+  `Guess must have a lower Scrabble score than ${rangeMax}`
+export const TOO_LOW_ALPHA_MESSAGE = (rangeMin: string) =>
+  `Guess must alphabetically come after ${rangeMin}`
+export const TOO_HIGH_ALPHA_MESSAGE = (rangeMax: string) =>
+  `Guess must alphabetically come before ${rangeMax}`
 export const ENTER_TEXT = 'Enter'
 export const DELETE_TEXT = 'Delete'
 export const STATISTICS_TITLE = 'Statistics'
