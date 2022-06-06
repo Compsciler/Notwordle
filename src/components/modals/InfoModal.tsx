@@ -19,6 +19,9 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         Unfortunately, the typical Wordle letter tiles are broken, 
         and you will need to rely on other clues on how your guess relates to the solution.
       </p>
+      <p className="text-sm text-gray-500 dark:text-gray-300">
+        Playing on PC is strongly recommended. (You might also want paper to write on!)
+      </p>
       <br />
       <p className="text-sm text-gray-500 dark:text-gray-300">
         Meaning of clues to the right of each word, from left to right:
