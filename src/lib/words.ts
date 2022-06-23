@@ -125,7 +125,7 @@ export const getWordOfDay = () => {
   const nextDay = new Date(today)
   nextDay.setDate(today.getDate() + 1)
 
-  const offset = -20
+  const offset = 0
   const solutionAndIndex = getWordBySolutionIndex((index + offset) % WORDS.length)
 
   return {
