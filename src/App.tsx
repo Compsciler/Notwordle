@@ -115,6 +115,11 @@ function App() {
   const [isHighContrastMode, setIsHighContrastMode] = useState(
     getStoredIsHighContrastMode()
   )
+  const [isManualShareText, setIsManualShareText] = useState(
+    localStorage.getItem('manualShare')
+      ? localStorage.getItem('manualShare') === 'on'
+      : false
+  )
   const [isRevealing, setIsRevealing] = useState(false)
 
   const [guessesOfDay, setGuessesOfDay] = useState<string[]>(() => {
@@ -205,6 +210,11 @@ function App() {
   const handleHighContrastMode = (isHighContrast: boolean) => {
     setIsHighContrastMode(isHighContrast)
     setStoredIsHighContrastMode(isHighContrast)
+  }
+
+  const handleManualShareText = (isManual: boolean) => {
+    setIsManualShareText(isManual)
+    localStorage.setItem('manualShare', isManual ? 'on' : 'off')
   }
 
   const clearCurrentRowClass = () => {
@@ -452,6 +462,7 @@ function App() {
           isHighContrastMode={isHighContrastMode}
           numberOfGuessesMade={guesses.length}
           isPlayingExample={isPlayingExample}
+          isManualShareText={isManualShareText}
         />
         <SettingsModal
           isOpen={isSettingsModalOpen}
@@ -462,6 +473,8 @@ function App() {
           handleDarkMode={handleDarkMode}
           isHighContrastMode={isHighContrastMode}
           handleHighContrastMode={handleHighContrastMode}
+          isManualShareText={isManualShareText}
+          handleManualShareText={handleManualShareText}
         />
         <AlertContainer />
       </div>

@@ -20,17 +20,9 @@ export const shareStatus = (
   isHighContrastMode: boolean,
   handleShareToClipboard: () => void
 ) => {
-  const textToShare =
-    `${GAME_TITLE} ${solutionIndex} ${
-      lost ? 'X' : guesses.length
-    }/${MAX_CHALLENGES}${isHardMode ? '*' : ''}\n\n` +
-    generateEmojiGrid(
-      solution,
-      guesses,
-      getEmojiTiles(false, isHighContrastMode)
-    ) + '\n\n' +
-    gameUrl
-
+  const textToShare = getTextToShare(solution, solutionIndex, guesses, lost,
+    isHardMode, isDarkMode, isHighContrastMode)
+  
   const shareData = { text: textToShare }
 
   let shareSuccess = false
@@ -48,6 +40,28 @@ export const shareStatus = (
     navigator.clipboard.writeText(textToShare)
     handleShareToClipboard()
   }
+}
+
+export const getTextToShare = (
+  solution: string,
+  solutionIndex: number,
+  guesses: string[],
+  lost: boolean,
+  isHardMode: boolean,
+  isDarkMode: boolean,
+  isHighContrastMode: boolean,
+) => {
+  return (
+    `${GAME_TITLE} ${solutionIndex} ${
+      lost ? 'X' : guesses.length
+    }/${MAX_CHALLENGES}${isHardMode ? '*' : ''}\n\n` +
+    generateEmojiGrid(
+      solution,
+      guesses,
+      getEmojiTiles(false, isHighContrastMode)
+    ) + '\n\n' +
+    gameUrl
+  )
 }
 
 export const generateEmojiGrid = (
@@ -120,9 +134,9 @@ const toHighLowEmoji = (highLow: HighLowStatus) => {
 
 const getLadderDistanceTile = (guess: string, solution: string) => {
   const tiles: {[distance: number]: string} = {0: '0️⃣', 1: '1️⃣', 2: '2️⃣', 3: '3️⃣', 4: '4️⃣', 
-                 5: '5️⃣', 6: '6️⃣', 7: '7️⃣', 8: '8️⃣', 9: '9️⃣', 10: '🔟',
+                 5: '5️⃣', 6: '6️⃣', 7: '7️⃣', 8: '8️⃣', 9: '9️⃣',
   }
-  const defaultTile = '🔟'
+  const defaultTile = '9️⃣'
   const distance = getWordLadderDistance(guess, solution)
   return tiles[distance] ? tiles[distance] : defaultTile
 }
