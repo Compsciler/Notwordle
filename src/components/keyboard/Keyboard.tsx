@@ -3,6 +3,7 @@ import { Key } from './Key'
 import { useEffect } from 'react'
 import { ENTER_TEXT, DELETE_TEXT } from '../../constants/strings'
 import { localeAwareUpperCase } from '../../lib/words'
+import { SCRABBLE_SCORE } from '../../constants/scrabbleScore'
 
 type Props = {
   onChar: (value: string) => void
@@ -59,6 +60,7 @@ export const Keyboard = ({
         {['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'].map((key) => (
           <Key
             value={key}
+            pointValue={SCRABBLE_SCORE[key.toLowerCase()]}
             key={key}
             onClick={onClick}
             status={charStatuses[key]}
@@ -71,6 +73,7 @@ export const Keyboard = ({
         {['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'].map((key) => (
           <Key
             value={key}
+            pointValue={SCRABBLE_SCORE[key.toLowerCase()]}
             key={key}
             onClick={onClick}
             status={charStatuses[key]}
@@ -86,6 +89,7 @@ export const Keyboard = ({
         {['Z', 'X', 'C', 'V', 'B', 'N', 'M'].map((key) => (
           <Key
             value={key}
+            pointValue={SCRABBLE_SCORE[key.toLowerCase()]}
             key={key}
             onClick={onClick}
             status={charStatuses[key]}

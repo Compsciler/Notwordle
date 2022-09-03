@@ -7,6 +7,7 @@ import { getStoredIsHighContrastMode } from '../../lib/localStorage'
 type Props = {
   children?: ReactNode
   value: string
+  pointValue?: number
   width?: number
   status?: CharStatus
   onClick: (value: string) => void
@@ -19,6 +20,7 @@ export const Key = ({
   status,
   width = 40,
   value,
+  pointValue,
   onClick,
   isRevealing,
   solution,
@@ -63,6 +65,7 @@ export const Key = ({
       onClick={handleClick}
     >
       {children || value}
+      {pointValue && <div className="mt-3">{pointValue}</div>}
     </button>
   )
 }
