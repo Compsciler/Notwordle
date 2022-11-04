@@ -63,6 +63,10 @@ import {
   getPartialWordleStatus,
   GuessStatuses,
 } from './lib/statuses'
+import { SolutionText } from './components/gametext/SolutionText'
+//|| import { SolutionText } from './components/gametext/SolutionText'
+//|| import { findFirstLadder } from './lib/wordladder'
+//|| import { VALID_GUESSES_UPPER } from './constants/validGuesses'
 
 function App() {
   const isPlayingDaily = useMatch('/') !== null
@@ -103,6 +107,7 @@ function App() {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
+  const [isSolutionTextOpen, setIsSolutionTextOpen] = useState(false)
   const [currentRowClass, setCurrentRowClass] = useState('')
   const [isGameLost, setIsGameLost] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(
@@ -121,6 +126,9 @@ function App() {
       : false
   )
   const [isRevealing, setIsRevealing] = useState(false)
+
+  const [isSolutionButtonClicked, setIsSolutionButtonClicked] = useState(false)
+  const [guessLadders, setGuessLadders] = useState<string[][]>([])
 
   const [guessesOfDay, setGuessesOfDay] = useState<string[]>(() => {
     const loaded = loadGameOfDayStateFromLocalStorage()
@@ -142,13 +150,17 @@ function App() {
     const gameWasWon = loaded.guesses.includes(solution)
     if (gameWasWon) {
       setIsGameWon(true)
+      setIsSolutionTextOpen(true)
     }
     if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
       setIsGameLost(true)
       showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
         persist: true,
       })
+      setIsSolutionTextOpen(true)
     }
+    setGuessLadders(loaded.guessLadders)
+    setIsSolutionButtonClicked(loaded.isSolutionButtonClicked)
     return loaded.guesses
   })
 
@@ -222,20 +234,30 @@ function App() {
   }
 
   useEffect(() => {
-    saveGameStateToLocalStorage({ guesses, solution })
-  }, [guesses])
+    saveGameStateToLocalStorage({
+      guesses,
+      solution,
+      guessLadders,
+      isSolutionButtonClicked,
+    })
+  }, [guesses, guessLadders, isSolutionButtonClicked])
   useEffect(() => {
     if (!isPlayingDaily) {
       return
     }
-    saveGameOfDayStateToLocalStorage({ guesses, solution })
-  }, [guessesOfDay])
+    saveGameOfDayStateToLocalStorage({
+      guesses,
+      solution,
+      guessLadders,
+      isSolutionButtonClicked,
+    })
+  }, [guessesOfDay, guessLadders, isSolutionButtonClicked])
 
   useEffect(() => {
+    const delayMs = REVEAL_TIME_MS * solution.length
     if (isGameWon) {
       const winMessage =
         WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
-      const delayMs = REVEAL_TIME_MS * solution.length
 
       showSuccessAlert(winMessage, {
         delayMs,
@@ -247,6 +269,12 @@ function App() {
       setTimeout(() => {
         setIsStatsModalOpen(true)
       }, (solution.length + 1) * REVEAL_TIME_MS)
+    }
+
+    if (isGameWon || isGameLost) {
+      setTimeout(() => {
+        setIsSolutionTextOpen(true)
+      }, delayMs)
     }
   }, [isGameWon, isGameLost, showSuccessAlert])
 
@@ -329,12 +357,15 @@ function App() {
       !isGameWon
     ) {
       const guessesIncludingCurrent = guesses.concat(currentGuess)
+      //|| const currentGuessLadder = findFirstLadder(currentGuess, solution, VALID_GUESSES_UPPER)
+      //|| const guessLaddersIncludingCurrent = guessLadders.concat(currentGuessLadder)
 
       setGuesses([...guesses, currentGuess])
       if (isPlayingDaily) {
         setGuessesOfDay([...guesses, currentGuess])
       }
       setCurrentGuess('')
+      //|| setGuessLadders([...guessLadders, currentGuessLadder])
 
       if (winningWord) {
         if (!isPlayingExample) {
@@ -433,6 +464,15 @@ function App() {
             currentGuess={currentGuess}
             isRevealing={isRevealing}
             currentRowClassName={currentRowClass}
+          />
+          <SolutionText
+            solution={solution}
+            guesses={guesses}
+            guessLadders={guessLadders}
+            isGameComplete={isSolutionTextOpen}
+            isSolutionButtonClicked={isSolutionButtonClicked}
+            setIsSolutionButtonClicked={setIsSolutionButtonClicked}
+            setGuessLadders={setGuessLadders}
           />
         </div>
         <Keyboard

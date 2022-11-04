@@ -1,5 +1,5 @@
 import { SCRABBLE_SCORE } from '../constants/scrabbleScore'
-import { VALID_GUESSES } from '../constants/validGuesses'
+import { VALID_GUESSES_UPPER } from '../constants/validGuesses'
 import { WORD_FREQ } from '../constants/wordfreq'
 import { unicodeSplit } from './words'
 import { ladderLength } from './wordladder'
@@ -20,7 +20,24 @@ export const getStatuses = (
   solution: string,
   guesses: string[]
 ): { [key: string]: CharStatus } => {
-  return {}
+  const charObj: { [key: string]: CharStatus } = {}
+  const splitSolution = unicodeSplit(solution)
+
+  guesses.forEach((word) => {
+    let all_gray = true
+    unicodeSplit(word).forEach((letter, i) => {
+      if (splitSolution.includes(letter)) {
+        all_gray = false
+      }
+    })
+    if (all_gray) {
+      unicodeSplit(word).forEach((letter, i) => {
+        return (charObj[letter] = 'absent')
+      })
+    }
+  })
+
+  return charObj
 }
 
 export const getGuessStatuses = (
@@ -73,7 +90,7 @@ export const getFrequencyStatus = (guess: string, solution: string) => {
 }
 
 export const getWordLadderDistance = (word1: string, word2: string) => {
-  return ladderLength(word1.toLowerCase(), word2.toLowerCase(), VALID_GUESSES)
+  return ladderLength(word1, word2, VALID_GUESSES_UPPER)
 }
 
 export const getPartialWordleStatus = (

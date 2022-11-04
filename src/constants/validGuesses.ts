@@ -12972,3 +12972,5 @@ export const VALID_GUESSES = [
   'zymes',
   'zymic',
 ]
+
+export const VALID_GUESSES_UPPER =  VALID_GUESSES.map(guess => guess.toUpperCase())
