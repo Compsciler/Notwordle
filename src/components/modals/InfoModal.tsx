@@ -16,7 +16,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         change to show how close your guess was to the word.
       </p>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        Unfortunately, the typical Wordle letter tiles are broken, 
+        Unfortunately, the typical Wordle letter tiles are broken,
         and you will need to rely on other clues on how your guess relates to the solution.
       </p>
       <p className="text-sm text-gray-500 dark:text-gray-300">
@@ -41,13 +41,13 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
             <b>4.</b> Word frequency comparison of guess to solution (based on Google Books n-grams dataset)
           </li>
           <li>
-            <b>5.</b> Shortest word ladder length from guess to solution, altering one letter at a time 
+            <b>5.</b> Shortest word ladder length from guess to solution, altering one letter at a time
             (displays "-" if word ladder doesn't exist) {<br />}
             For example, the length between SHINY and STING is 4 (number of letter changes): SHINY → SHINE → SWINE → SWING → STING.
           </li>
           <li>
-            <b>6.</b> Clue based original Wordle letter colors: 
-            displays green if there is at least one green in the guess, else yellow if there is at least one yellow in the guess, 
+            <b>6.</b> Clue based original Wordle letter colors:
+            displays green if there is at least one green in the guess, else yellow if there is at least one yellow in the guess,
             and gray otherwise. The number on the tile is how many letters of that color are present in the guess.
           </li>
           <br />
@@ -75,9 +75,9 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
       />
       <br />
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The guess WHERE tells you that the solution has a score lower than 11, 
-        alphabetically comes before WHERE, is less common than WHERE, 
-        can be transformed into WHERE in 5 steps, and has 2 green letter tiles 
+        The guess WHERE tells you that the solution has a score lower than 11,
+        alphabetically comes before WHERE, is less common than WHERE,
+        can be transformed into WHERE in 5 steps, and has 2 green letter tiles
         (and an unknown number of yellow and gray tiles).
       </p>
 

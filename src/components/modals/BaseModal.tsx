@@ -7,7 +7,7 @@ type Props = {
   children: React.ReactNode
   isOpen: boolean
   handleClose: () => void
-  isWide: boolean
+  isWide?: boolean
 }
 
 export const BaseModal = ({ title, children, isOpen, handleClose, isWide }: Props) => {

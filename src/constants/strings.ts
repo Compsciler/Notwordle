@@ -9,6 +9,7 @@ export const HARD_MODE_ALERT_MESSAGE =
 export const HARD_MODE_DESCRIPTION =
   'Any revealed hints must be used in subsequent guesses'
 export const HIGH_CONTRAST_MODE_DESCRIPTION = 'For improved color vision'
+export const SPEEDRUN_MODE_DESCRIPTION = 'Reveal guess results immediately (no animations), display stopwatch'
 export const MANUAL_SHARE_TEXT_DESCRIPTION = 'Display emoji share grid on Statistics window (turn on if Share button not working)'
 export const CORRECT_WORD_MESSAGE = (solution: string) =>
   `The word was ${solution}`
@@ -32,6 +33,9 @@ export const STATISTICS_TITLE = 'Statistics'
 export const GUESS_DISTRIBUTION_TEXT = 'Guess Distribution'
 export const NEW_WORD_TEXT = 'New word in'
 export const SHARE_TEXT = 'Share'
+export const MIGRATE_BUTTON_TEXT = 'Transfer'
+export const MIGRATE_DESCRIPTION_TEXT =
+  'Click here to transfer your statistics to a new device.'
 export const TOTAL_TRIES_TEXT = 'Total tries'
 export const SUCCESS_RATE_TEXT = 'Success rate'
 export const CURRENT_STREAK_TEXT = 'Current streak'

@@ -18,11 +18,12 @@ export const shareStatus = (
   isHardMode: boolean,
   isDarkMode: boolean,
   isHighContrastMode: boolean,
+  isPlayingRandom: boolean,
   handleShareToClipboard: () => void
 ) => {
   const textToShare = getTextToShare(solution, solutionIndex, guesses, lost,
-    isHardMode, isDarkMode, isHighContrastMode)
-  
+    isHardMode, isDarkMode, isHighContrastMode, isPlayingRandom)
+
   const shareData = { text: textToShare }
 
   let shareSuccess = false
@@ -50,10 +51,11 @@ export const getTextToShare = (
   isHardMode: boolean,
   isDarkMode: boolean,
   isHighContrastMode: boolean,
+  isPlayingRandom: boolean,
 ) => {
+  const solutionIndexOrUnlimited = isPlayingRandom ? 'Unlimited' : solutionIndex
   return (
-    `${GAME_TITLE} ${solutionIndex} ${
-      lost ? 'X' : guesses.length
+    `${GAME_TITLE} ${solutionIndexOrUnlimited} ${lost ? 'X' : guesses.length
     }/${MAX_CHALLENGES}${isHardMode ? '*' : ''}\n\n` +
     generateEmojiGrid(
       solution,
@@ -79,13 +81,13 @@ export const generateEmojiGrid = (
           return getStatusEmoji(status[i], tiles)
         })
         .join('')
-      
+
       const scrabbleTile = toHighLowEmoji(getScrabbleStatus(guess, solution))
       const alphaTile = toHighLowEmoji(getAlphabeticalStatus(guess, solution))
       const freqTile = toHighLowEmoji(getFrequencyStatus(guess, solution))
       const ladderTile = getLadderDistanceTile(guess, solution)
       const partialWordleTile = getStatusEmoji(getPartialWordleStatus(guess, solution).status, tiles)
-    
+
       return charTiles + ' ' + scrabbleTile + alphaTile + freqTile + ladderTile + partialWordleTile
     })
     .join('\n')
@@ -133,8 +135,9 @@ const toHighLowEmoji = (highLow: HighLowStatus) => {
 }
 
 const getLadderDistanceTile = (guess: string, solution: string) => {
-  const tiles: {[distance: number]: string} = {0: '0️⃣', 1: '1️⃣', 2: '2️⃣', 3: '3️⃣', 4: '4️⃣', 
-                 5: '5️⃣', 6: '6️⃣', 7: '7️⃣', 8: '8️⃣', 9: '9️⃣',
+  const tiles: { [distance: number]: string } = {
+    0: '0️⃣', 1: '1️⃣', 2: '2️⃣', 3: '3️⃣', 4: '4️⃣',
+    5: '5️⃣', 6: '6️⃣', 7: '7️⃣', 8: '8️⃣', 9: '9️⃣',
   }
   const defaultTile = '9️⃣'
   const distance = getWordLadderDistance(guess, solution)
