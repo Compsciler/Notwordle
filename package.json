@@ -64,7 +64,7 @@
     "@iconify/react": "^4.0.1",
     "@types/crypto-js": "^4.1.1",
     "@types/react-html-parser": "^2.0.2",
-    "autoprefixer": "^10.4.4",
+    "autoprefixer": "^10.4.13",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.2",
     "nodemon": "^2.0.15",
