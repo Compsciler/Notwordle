@@ -34,6 +34,6 @@ Meaning of clues to the right of each word, from left to right:
   </li>
 </ol>
 
-[**Play the daily game here!**](https://notwordle0.herokuapp.com/)
+[**Play the daily game here!**](https://notwordle.netlify.app/)
 
 This is one of the Wordle variants I have made. The other games and instructions for creating your own Wordle variant can be found [here](https://github.com/Compsciler/Wordle-With-Score-Database/).
